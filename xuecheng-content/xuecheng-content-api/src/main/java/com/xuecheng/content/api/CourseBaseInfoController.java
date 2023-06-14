@@ -24,7 +24,7 @@ import javax.validation.Valid;
 public class CourseBaseInfoController {
     @Autowired
     private CourseBaseService courseBaseService;
-    @ApiOperation("课程查询接口")
+    @ApiOperation("课程分页查询接口")
     @PostMapping("/list")
     public PageResult<CourseBase> list(PageParams params, @RequestBody(required = false) QueryCourseParamDto queryCourseParamDto){
         return courseBaseService.queryCourseBaseList(params, queryCourseParamDto);

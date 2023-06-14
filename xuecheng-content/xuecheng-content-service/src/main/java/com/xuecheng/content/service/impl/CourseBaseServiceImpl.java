@@ -111,7 +111,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         if(courseBase==null){
             XueChengPlusException.cast("课程不存在");
         }
-        if(!courseBase.getCompanyId().equals(courseId)){
+        if(!courseBase.getCompanyId().equals(companyId)){
             XueChengPlusException.cast("本机构只能修改本机构的课程");
         }
         //封装基本信息的数据
