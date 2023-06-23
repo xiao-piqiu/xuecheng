@@ -76,6 +76,25 @@ public class TeachplanServiceImpl extends ServiceImpl<TeachplanMapper, Teachplan
         teachplanMediaMapper.insert(teachplanMedia);
     }
 
+    @Override
+    public void deleteTeachplan(Long id) {
+        Teachplan teachplan = teachplanMapper.selectById(id);
+        Long parentid = teachplan.getParentid();
+        if (parentid==0){
+            LambdaQueryWrapper<Teachplan> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Teachplan::getParentid,teachplan.getId());
+            Integer count = teachplanMapper.selectCount(queryWrapper);
+            if(count==0){
+                XueChengPlusException.cast("课程计划信息还有子级信息，无法操作");
+            }
+        }else {
+            LambdaQueryWrapper<TeachplanMedia> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(TeachplanMedia::getTeachplanId,id);
+            teachplanMediaMapper.delete(lambdaQueryWrapper);
+        }
+        teachplanMapper.deleteById(id);
+    }
+
     private int getTeachplanCount(SaveTeachplanDto saveTeachplanDto) {
         Long parentid = saveTeachplanDto.getParentid();
         Long courseId = saveTeachplanDto.getCourseId();

@@ -22,6 +22,11 @@ public class TeachplanController {
     public List<TeachplanDto> getTreeNodes(@PathVariable Long courseId){
         return teachplanService.findTeachplanTree(courseId);
     }
+    @ApiOperation("删除课程计划")
+    @DeleteMapping("teachplan/{id}")
+    public void deleteTeachplan(@PathVariable Long id){
+        teachplanService.deleteTeachplan(id);
+    }
     @ApiOperation("课程计划创建或修改")
     @PostMapping("/teachplan")
     public void saveTeachplan( @RequestBody SaveTeachplanDto teachplan){
