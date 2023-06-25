@@ -321,6 +321,12 @@ public class MediaFileServiceImpl implements MediaFileService {
         clearChunkFiles(chunkFileFolderPath,chunkTotal);
         return RestResponse.success(true);
     }
+
+    @Override
+    public MediaFiles getFileById(String mediaId) {
+       return mediaFilesMapper.selectById(mediaId);
+    }
+
     private void clearChunkFiles(String chunkFileFolderPath,int chunkTotal){
         List<DeleteObject> objects = Stream.iterate(0, i -> ++i)
                 .limit(chunkTotal)
