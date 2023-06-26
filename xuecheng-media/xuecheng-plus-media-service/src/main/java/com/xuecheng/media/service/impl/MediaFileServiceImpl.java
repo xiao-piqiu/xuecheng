@@ -80,7 +80,7 @@ public class MediaFileServiceImpl implements MediaFileService {
 
     }
     @Override
-    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamDto uploadFileParamDto, String localFilePath) {
+    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamDto uploadFileParamDto, String localFilePath,String objectName) {
         //得到拓展名
         String filename = uploadFileParamDto.getFilename();
         String extension = filename.substring(filename.lastIndexOf("."));
@@ -91,7 +91,9 @@ public class MediaFileServiceImpl implements MediaFileService {
         //获取md5值
         String fileMd5 = getFileMd5(new File(localFilePath));
         //目录+md5值+拓展名
-        String objectName=defaultFolderPath+fileMd5+extension;
+        if (StringUtils.isEmpty(objectName)){
+            objectName=defaultFolderPath+fileMd5+extension;
+        }
         //上传到minio
         boolean result = addMediaFilesToMinio(localFilePath, mimeType, bucket_mediafiles, objectName);
         if(!result){
