@@ -1,5 +1,6 @@
 package com.xuecheng;
 
+import com.xuecheng.ucenter.feignclient.CheckCodeClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
+@EnableFeignClients(basePackages = "com.xuecheng.ucenter.feignclient")
 @SpringBootApplication
 public class AuthApplication {
 
