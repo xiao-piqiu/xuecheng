@@ -2,6 +2,7 @@ package com.xuecheng.content.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xuecheng.base.exeception.ValidationGroups;
+import com.xuecheng.base.exeception.XueChengPlusException;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
 import com.xuecheng.content.model.dto.AddCourseDto;
@@ -10,9 +11,11 @@ import com.xuecheng.content.model.dto.EditCourseDto;
 import com.xuecheng.content.model.dto.QueryCourseParamDto;
 import com.xuecheng.content.model.po.CourseBase;
 import com.xuecheng.content.service.CourseBaseService;
+import com.xuecheng.content.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +29,14 @@ public class CourseBaseInfoController {
     @Autowired
     private CourseBaseService courseBaseService;
     @ApiOperation("课程分页查询接口")
+    @PreAuthorize("hasAuthority('xc_teachmanager_course_list')")
     @PostMapping("/list")
     public PageResult<CourseBase> list(PageParams params, @RequestBody(required = false) QueryCourseParamDto queryCourseParamDto){
-        return courseBaseService.queryCourseBaseList(params, queryCourseParamDto);
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        if (user.getCompanyId()==null){
+            XueChengPlusException.cast("机构id为空");
+        }
+        return courseBaseService.queryCourseBaseList(Long.valueOf(user.getCompanyId()),params, queryCourseParamDto);
     }
     @ApiOperation("根据课程id查询课程基础信息")
     @GetMapping("/{id}")

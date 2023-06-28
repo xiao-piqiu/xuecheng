@@ -1,11 +1,9 @@
 package com.xuecheng.content.util;
 
 import com.alibaba.fastjson.JSON;
-import com.xuecheng.ucenter.model.po.XcUser;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
