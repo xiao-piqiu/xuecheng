@@ -36,4 +36,5 @@ public interface CoursePublishService extends IService<CoursePublish> {
      */
     public void  uploadCourseHtml(Long courseId,File file);
 
+    CoursePublish getCoursePublish(Long courseId);
 }
